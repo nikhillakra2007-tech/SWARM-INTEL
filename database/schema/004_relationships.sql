@@ -1,0 +1,62 @@
+-- =============================================================================
+-- 004_relationships.sql — Relationship & polymorphic integrity notes
+-- =============================================================================
+-- Hard FKs are already declared inline in 003_tables.sql for every
+-- structurally-known relationship (customer → mobile, loan → application, etc.).
+--
+-- For polymorphic intelligence tables the schema intentionally uses
+--   (entity_type VARCHAR, entity_id UUID)
+-- without a hard FK, because the target table varies per row.
+-- Integrity is enforced at the application layer and documented here.
+--
+-- Polymorphic tables and their allowed entity_type values:
+--
+--   entity_relationships(source_entity_type, source_entity_id)
+--   entity_relationships(target_entity_type, target_entity_id)
+--     → CUSTOMER | MOBILE | DEVICE | BANK_ACCOUNT | ADDRESS | DEALER
+--       | GUARANTOR | IP | LOAN | APPLICATION | LOCATION
+--
+--   fraud_signals(entity_type, entity_id)
+--     → CUSTOMER | MOBILE | DEVICE | BANK_ACCOUNT | ADDRESS | DEALER
+--       | GUARANTOR | IP | LOAN | APPLICATION | LOCATION | CLUSTER
+--
+--   risk_scores(entity_type, entity_id)
+--     → CUSTOMER | LOAN | APPLICATION | DEALER | DEVICE | CLUSTER
+--
+--   fraud_cluster_members(entity_type, entity_id)
+--     → CUSTOMER | MOBILE | DEVICE | BANK_ACCOUNT | ADDRESS | DEALER
+--       | GUARANTOR | IP | LOAN | APPLICATION
+--     + hard FK: cluster_id → fraud_clusters(cluster_id)
+--
+--   fraud_alerts(entity_type, entity_id)  + optional cluster_id FK
+--     → CUSTOMER | LOAN | APPLICATION | DEALER | DEVICE | CLUSTER
+--
+--   predictions(entity_type, entity_id)   + hard FK: model_id → model_versions
+--     → CUSTOMER | LOAN | APPLICATION | DEALER | DEVICE | CLUSTER
+--
+--   audit_logs(entity_type, entity_id) — fully open, no FK
+--
+-- Application-level validation SHOULD:
+--   1. Check that entity_type is one of the allowed values (CHECK does this).
+--   2. Verify entity_id exists in the table implied by entity_type before insert.
+--   3. Provide a helper function or view that resolves polymorphic references.
+--
+-- Example helper (optional, create after tables):
+-- =============================================================================
+
+-- Optional: view that validates polymorphic references exist (for ad-hoc checks)
+-- Uncomment if you want a diagnostic query; not required for normal operation.
+
+-- CREATE OR REPLACE VIEW v_polymorphic_integrity AS
+-- SELECT 'entity_relationships source' AS tbl, er.relationship_id::text AS id,
+--        er.source_entity_type AS etype, er.source_entity_id AS eid
+-- FROM entity_relationships er
+-- UNION ALL
+-- SELECT 'entity_relationships target', er.relationship_id::text, er.target_entity_type, er.target_entity_id
+-- FROM entity_relationships er
+-- UNION ALL
+-- SELECT 'fraud_signals', fs.signal_id::text, fs.entity_type, fs.entity_id FROM fraud_signals fs
+-- UNION ALL
+-- SELECT 'risk_scores', rs.risk_score_id::text, rs.entity_type, rs.entity_id FROM risk_scores rs;
+
+SELECT '004_relationships.sql — polymorphic integrity documented (no DDL changes needed)' AS status;

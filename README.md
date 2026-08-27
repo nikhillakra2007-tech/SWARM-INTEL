@@ -1,12 +1,3 @@
-## 🚀 Live Demo
-
-[![SWARM•INTEL Dashboard](docs/screenshots/dashboard.png)](https://swarm-intel-frontend.onrender.com/)
-
-**[Open the Live Demo →](https://swarm-intel-frontend.onrender.com/)**
-
-SWARM•INTEL connects customers, devices, dealers, accounts and behavioural signals to uncover emerging fraud networks.
-
-
 # SWARM•INTEL
 
 ### Swarm Intelligence Lending Network
@@ -39,7 +30,7 @@ Instead of evaluating a loan application only as an isolated record, SWARM•INT
 
 ### Intelligence Dashboard
 
-![SWARM•INTEL Dashboard](docs/screenshots/dashboard-top.png)
+[![SWARM•INTEL Dashboard](docs/screenshots/dashboard.png)](https://swarm-intel-frontend.onrender.com/)
 
 The dashboard provides a high-level view of:
 

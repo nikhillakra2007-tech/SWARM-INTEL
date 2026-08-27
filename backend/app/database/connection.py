@@ -14,7 +14,7 @@ engine = create_engine(
     pool_pre_ping=True,
     pool_size=10,
     max_overflow=20,
-    echo=settings.DEBUG is False,  # only log if not debug? keep quiet
+    echo=settings.DEBUG,  # only log if not debug? keep quiet
 )
 
 SessionLocal = sessionmaker(autocommit=False, autoflush=False, bind=engine)

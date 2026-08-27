@@ -1,51 +1,63 @@
-# Swarm Intelligence Lending Network
+# SWARM•INTEL
 
-AI-driven lending fraud intelligence platform — discovers hidden relationships across lending entities and identifies emerging fraud ecosystems before traditional loan-level checks.
+### Swarm Intelligence Lending Network
 
-> Synthetic demo data only. Not a production fraud system.
+> **Detect the network. Understand the signal. Stop the fraud.**
 
-## Architecture
-```
-Frontend → FastAPI → SQLAlchemy → PostgreSQL (31 tables) → Intelligence (graph / fraud / ML / clusters) → Alerts / Investigations
-```
-Local PostgreSQL now; Supabase PostgreSQL later via `DATABASE_URL` change only.
+SWARM•INTEL is an AI-driven lending fraud intelligence platform designed to identify hidden relationships and coordinated fraud patterns across the lending ecosystem.
 
-## Quick start
+Instead of evaluating a loan application only as an isolated record, SWARM•INTEL analyzes the **network surrounding an entity** — customers, devices, mobile numbers, addresses, bank accounts, dealers, applications, loans, guarantors, locations and repayment behaviour.
 
-```powershell
-# DB (once)
-psql postgresql://postgres:postgres@localhost:5432/postgres -c "CREATE DATABASE swarm_lending"
-.\database\scripts\setup.ps1   # applies schema + seeds
+---
 
-# Backend
-cd backend
-Copy-Item .env.example .env   # edit if needed
-pip install -r requirements.txt
-uvicorn app.main:app --reload --port 8000
-# docs: http://127.0.0.1:8000/docs  health: /health
-```
+## 🌐 Live Demo
 
-## Project layout
-```
-swarm/
-  README.md          # ← this file (single project README)
-  database/          # 31-table schema, seeds, queries, docs
-  backend/           # FastAPI + SQLAlchemy + intelligence
-  frontend/          # (next phase)
-```
+### [🚀 Open SWARM•INTEL](https://swarm-intel-frontend.onrender.com/)
 
-## Backend smoke
-```powershell
-cd backend
-$env:PGPASSWORD="postgres"; python -m pytest tests -v
-curl http://127.0.0.1:8000/health
-```
+| Resource | Link |
+|---|---|
+| 🌐 Frontend | [Open SWARM•INTEL](https://swarm-intel-frontend.onrender.com/) |
+| ⚡ Backend API | [Open API](https://swarm-intel.onrender.com/) |
+| 📚 Swagger API Docs | [Open API Documentation](https://swarm-intel.onrender.com/docs) |
+| ❤️ API Health | [Check Health](https://swarm-intel.onrender.com/health) |
+| 💻 GitHub | [SWARM-INTEL](https://github.com/nikhillakra2007-tech/SWARM-INTEL) |
 
-## Key demo: F-1001 cluster
-Customers C013–C016 share Device D004, Mobile M002, Bank B007, Address A013, Dealer DL003, Guarantor G005. Individually low-risk; collectively CRITICAL (risk 91.5). Reconstruct via `/api/relationships/CUSTOMER/{id}`, `/api/network/CUSTOMER/{id}`, `/api/clusters`, `/api/fraud/analyze/CUSTOMER/{id}`.
+> **Note:** The application is deployed on free-tier infrastructure, so the first request after inactivity may take some time while the service wakes up.
 
-## Env
-`DATABASE_URL=postgresql+psycopg://postgres:postgres@localhost:5432/swarm_lending` — change host to Supabase when migrating.
+---
 
-## Tests
-Database: connection + 31 tables + fraud network queries. Backend: 12 tests (health, CRUD, intelligence, ML features, cluster). All passing.
+## 📸 Platform Preview
+
+### Intelligence Dashboard
+
+![SWARM•INTEL Dashboard](docs/screenshots/dashboard-top.png)
+
+The dashboard provides a high-level view of:
+
+- Active fraud networks
+- High-risk entities
+- Applications and customers
+- Network relationships
+- Risk distribution
+- Fraud risk trends
+- Fraud signals
+- Risky clusters
+- Recent intelligence activity
+- Investigation actions
+
+### Network Intelligence
+
+The platform visualizes relationships between entities such as:
+
+```text
+Customer
+   ↓
+Device
+   ↓
+Mobile
+   ↓
+Bank Account
+   ↓
+Dealer
+   ↓
+Loan
